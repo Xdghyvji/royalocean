@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Ocean - Secure Investment Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Particles.js for animations -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .hero-bg {
+            background-color: #0c143d;
+            position: relative;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        /* For custom scrollbars in history */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            height: 20px;
+            width: 20px;
+            font-size: 12px;
+        }
+         .tab-button.active {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- Modals -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden"><div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white"></div></div>
+    <div id="alertModal" class="fixed inset-0 bg-black bg-opacity-60 z-40 flex items-center justify-center p-4 hidden">
+        <div id="alertBox" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center transform transition-all scale-95 opacity-0">
+            <p id="alertMessage" class="text-lg mb-4"></p>
+            <button onclick="closeAlert()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md">OK</button>
+        </div>
+    </div>
+    <div id="formModal" class="fixed inset-0 bg-black bg-opacity-60 z-30 flex items-center justify-center p-4 hidden">
+        <!-- Plan, User Edit, and User Details modal content injected by JS -->
+    </div>
+
+
+    <!-- Main Container -->
+    <div id="app-container">
+
+        <!-- LANDING PAGE -->
+        <div id="landingPage">
+            <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-30">
+                <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <a href="#" class="flex items-center gap-3">
+                        <i class="fas fa-water text-3xl text-blue-600"></i>
+                        <h1 class="text-2xl font-bold text-gray-800">ROYAL OCEAN</h1>
+                    </a>
+                    <div class="hidden md:flex items-center gap-6">
+                         <a href="#features" class="font-semibold text-gray-600 hover:text-blue-600">Features</a>
+                         <a href="#plans" class="font-semibold text-gray-600 hover:text-blue-600">Plans</a>
+                         <a href="#referrals" class="font-semibold text-gray-600 hover:text-blue-600">Referrals</a>
+                    </div>
+                    <div>
+                        <button onclick="showAuthView('login')" class="font-semibold text-gray-600 hover:text-blue-600 px-4 py-2">Login</button>
+                        <button onclick="showAuthView('signup')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform hover:scale-105">Sign Up</button>
+                    </div>
+                </nav>
+            </header>
+            <main>
+                <!-- Hero Section -->
+                <section class="hero-bg text-white py-20 md:py-32 overflow-hidden">
+                    <div id="particles-js"></div>
+                    <div class="hero-content container mx-auto px-4 text-center">
+                        <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Secure Your Financial Future</h2>
+                        <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">Invest with confidence on a trusted, transparent, and secure platform. Grow your capital with our expertly managed plans.</p>
+                        <button onclick="showAuthView('signup')" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full shadow-lg text-lg transition-transform hover:scale-105">Get Started Today</button>
+                    </div>
+                </section>
+
+                <!-- How It Works Section -->
+                <section id="features" class="py-16 bg-gray-50">
+                    <div class="container mx-auto px-4 text-center">
+                        <h2 class="text-3xl font-bold mb-4 fade-in-section">Start Earning in 3 Simple Steps</h2>
+                        <p class="text-gray-600 mb-12 max-w-2xl mx-auto fade-in-section">Our platform is designed for simplicity. Get your investment journey started in just a few minutes.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="p-6 fade-in-section">
+                                <div class="bg-blue-100 text-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-user-plus fa-2x"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Create an Account</h3>
+                                <p class="text-gray-600">Sign up for a free account quickly and securely.</p>
+                            </div>
+                            <div class="p-6 fade-in-section" style="transition-delay: 200ms;">
+                                <div class="bg-blue-100 text-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-gem fa-2x"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Choose a Plan</h3>
+                                <p class="text-gray-600">Select an investment plan that aligns with your financial goals.</p>
+                            </div>
+                            <div class="p-6 fade-in-section" style="transition-delay: 400ms;">
+                                <div class="bg-blue-100 text-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-hand-holding-usd fa-2x"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Start Earning</h3>
+                                <p class="text-gray-600">Watch your capital grow and claim your daily earnings.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Plans Preview Section -->
+                <section id="plans" class="py-16">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-3xl font-bold text-center mb-12 fade-in-section">Our Most Popular Plans</h2>
+                        <div id="landing-plans-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Plans will be injected here by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Referral Section -->
+                <section id="referrals" class="bg-blue-50 py-16">
+                    <div class="container mx-auto px-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                            <div class="fade-in-section">
+                                <h2 class="text-3xl font-bold mb-4">Invite Friends, Earn More</h2>
+                                <p class="text-gray-600 mb-6">Our referral program is a great way to boost your earnings. Share your unique referral link or code with your friends and earn a bonus every time they purchase a plan.</p>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-600"></i> Get a unique referral code.</li>
+                                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-600"></i> Share it with your friends.</li>
+                                    <li class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-600"></i> Earn bonus when they invest.</li>
+                                </ul>
+                                <button onclick="showAuthView('signup')" class="mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">Start Referring</button>
+                            </div>
+                            <div class="fade-in-section">
+                                <img src="https://placehold.co/600x400/e0e7ff/3b82f6?text=Referral+Illustration" alt="Referral program illustration" class="rounded-lg shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <footer class="bg-gray-800 text-white pt-12 pb-8">
+                    <div class="container mx-auto px-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                            <div>
+                                <h3 class="text-lg font-bold mb-4">Royal Ocean</h3>
+                                <p class="text-gray-400">A secure platform for smart investments.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="#features" class="text-gray-400 hover:text-white">Features</a></li>
+                                    <li><a href="#plans" class="text-gray-400 hover:text-white">Plans</a></li>
+                                    <li><a href="#referrals" class="text-gray-400 hover:text-white">Referrals</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Support</h3>
+                                 <ul class="space-y-2">
+                                    <li><a href="https://wa.me/923030948131" target="_blank" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                                    <li><a href="https://whatsapp.com/channel/0029Vb6Gx7LKWEKrxZVXWK0o" target="_blank" class="text-gray-400 hover:text-white">Updates Channel</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                                <div class="flex gap-4">
+                                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
+                            &copy; 2024 Royal Ocean. All Rights Reserved.
+                        </div>
+                    </div>
+                </footer>
+            </main>
+        </div>
+
+        <!-- AUTHENTICATION VIEW -->
+        <div id="authView" class="hidden min-h-screen bg-gray-100 flex items-center justify-center p-4">
+             <div class="max-w-md w-full">
+                <div class="text-center mb-6">
+                     <i class="fas fa-water text-5xl text-blue-600"></i>
+                     <h1 class="text-3xl font-bold text-gray-800 mt-2">ROYAL OCEAN</h1>
+                </div>
+                <div id="login-form-container" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+                    <h2 class="text-2xl font-bold text-center">Welcome Back!</h2>
+                    <input id="loginEmail" type="email" placeholder="Email Address" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500">
+                    <input id="loginPassword" type="password" placeholder="Password" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500">
+                    <button onclick="manualLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md">Login</button>
+                    <div class="relative"><div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div><div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-500">OR</span></div></div>
+                    <button id="googleLoginBtn" class="w-full bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm flex items-center justify-center gap-3"><img src="https://www.google.com/favicon.ico" alt="Google" class="w-6 h-6">Sign in with Google</button>
+                    <p class="text-sm text-center">Don't have an account? <button onclick="showAuthView('signup')" class="font-semibold text-blue-600">Sign Up</button></p>
+                </div>
+                <div id="signup-form-container" class="bg-white rounded-xl shadow-lg p-8 space-y-4 hidden">
+                    <h2 class="text-2xl font-bold text-center">Create Your Account</h2>
+                    <input id="signupUsername" type="text" placeholder="Full Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500">
+                    <input id="signupEmail" type="email" placeholder="Email Address" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500">
+                    <input id="signupPassword" type="password" placeholder="Password (min. 6 characters)" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500">
+                    <input id="signupReferralCode" type="text" placeholder="Referral Code (Optional)" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500">
+                    <button onclick="manualSignup()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md">Create Account</button>
+                    <div class="relative"><div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div><div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-500">OR</span></div></div>
+                    <button id="googleSignupBtn" class="w-full bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm flex items-center justify-center gap-3"><img src="https://www.google.com/favicon.ico" alt="Google" class="w-6 h-6">Sign up with Google</button>
+                    <p class="text-sm text-center">Already have an account? <button onclick="showAuthView('login')" class="font-semibold text-blue-600">Login</button></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN APP & ADMIN VIEW CONTAINER -->
+        <div id="mainView" class="hidden">
+            <header id="mainHeader" class="shadow-md sticky top-0 z-10"></header>
+            <div class="container mx-auto p-4 mt-5">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <aside class="w-full md:w-64 flex-shrink-0">
+                        <div class="bg-white rounded-xl shadow-lg p-4">
+                            <nav id="sidebar-nav" class="space-y-2"></nav>
+                        </div>
+                    </aside>
+                    <main id="main-content" class="flex-1 min-w-0"></main>
+                </div>
+            </div>
+        </div>
+
+         <a href="https://wa.me/923030948131" target="_blank" id="whatsapp-float" class="fixed bottom-5 right-5 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-20 hidden">
+            <i class="fab fa-whatsapp fa-3x"></i>
+        </a>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, serverTimestamp, query, where, getDocs, writeBatch, increment, orderBy, deleteDoc, limit, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyAFHsVYN7ZMU9dN2hvDcd-stEby6PnGmN4",
+          authDomain: "rerere-536eb.firebaseapp.com",
+          projectId: "rerere-536eb",
+          storageBucket: "rerere-536eb.appspot.com",
+          messagingSenderId: "999305796855",
+          appId: "1:999305796855:web:30f92a5ff5c7d1474247f2",
+          measurementId: "G-2N7V36E5V3"
+        };
+        
+        // --- INITIALIZATION ---
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
+        
+        // --- CONSTANTS ---
+        const ADMIN_EMAIL = "admin@royalocean.com";
+
+        // --- GLOBAL STATE & UI ELEMENTS ---
+        let currentUser = null, currentUserData = null;
+        let unsubscribes = [];
+        let earnTimerInterval = null;
+        let userChart = null, adminChart = null, adminPieChart = null;
+        let allAdminDeposits = [], allAdminWithdrawals = [];
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const mainHeader = document.getElementById('mainHeader');
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const mainContent = document.getElementById('main-content');
+        const formModal = document.getElementById('formModal');
+        const whatsappFloat = document.getElementById('whatsapp-float');
+
+        // --- UI HELPER FUNCTIONS ---
+        const showLoading = () => loadingOverlay.classList.remove('hidden');
+        const hideLoading = () => loadingOverlay.classList.add('hidden');
+        
+        function showAlert(message) {
+            document.getElementById('alertMessage').textContent = message;
+            document.getElementById('alertModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('alertBox').classList.remove('scale-95', 'opacity-0'), 10);
+        }
+        window.closeAlert = function() {
+            const box = document.getElementById('alertBox');
+            box.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => document.getElementById('alertModal').classList.add('hidden'), 200);
+        }
+        const generateReferralCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
+
+
+        // --- VIEW ROUTING ---
+        function showView(viewId) {
+            ['landingPage', 'authView', 'mainView'].forEach(id => {
+                document.getElementById(id).classList.toggle('hidden', id !== viewId);
+            });
+            whatsappFloat.classList.toggle('hidden', viewId !== 'landingPage');
+        }
+        window.showAuthView = function(formType) {
+            showView('authView');
+            document.getElementById('login-form-container').classList.toggle('hidden', formType !== 'login');
+            document.getElementById('signup-form-container').classList.toggle('hidden', formType !== 'signup');
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                document.getElementById('signupReferralCode').value = refCode;
+            }
+        }
+        
+        // --- NAVIGATION ---
+        const showSection = (sectionId) => {
+            document.querySelectorAll('#main-content > section').forEach(s => s.classList.add('hidden'));
+            const section = document.getElementById(sectionId);
+            if (section) section.classList.remove('hidden');
+            
+            document.querySelectorAll('#sidebar-nav a').forEach(a => {
+                a.classList.toggle('bg-blue-50', a.dataset.section === sectionId);
+                 a.classList.toggle('text-blue-600', a.dataset.section === sectionId);
+                 a.classList.toggle('font-semibold', a.dataset.section === sectionId);
+            });
+        }
+
+        // --- AUTHENTICATION ---
+        onAuthStateChanged(auth, async (user) => {
+            unsubscribes.forEach(unsub => unsub());
+            unsubscribes = [];
+            if(earnTimerInterval) clearInterval(earnTimerInterval);
+            if(userChart) { userChart.destroy(); userChart = null; }
+            if(adminChart) { adminChart.destroy(); adminChart = null; }
+            if(adminPieChart) { adminPieChart.destroy(); adminPieChart = null; }
+
+            if (user) {
+                showLoading();
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists() && userDoc.data().isBlocked) {
+                    await signOut(auth);
+                    hideLoading();
+                    return showAlert("Your account has been suspended. Please contact support.");
+                }
+
+                currentUser = user;
+                if (user.email === ADMIN_EMAIL) {
+                    await initializeAdminPanel(user);
+                } else {
+                    await initializeAppView(user);
+                }
+                hideLoading();
+            } else {
+                currentUser = null;
+                currentUserData = null;
+                initializeLandingPage();
+                showView('landingPage');
+            }
+        });
+        
+        window.manualSignup = async function() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const referralCode = document.getElementById('signupReferralCode').value.trim();
+            if (username.length < 3) return showAlert("Please enter a valid name.");
+            if (password.length < 6) return showAlert("Password must be at least 6 characters.");
+
+            showLoading();
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(userCredential.user, { displayName: username });
+                await setupUser(userCredential.user, username, referralCode);
+            } catch (error) {
+                showAlert(error.message);
+            } finally {
+                hideLoading();
+            }
+        };
+
+        window.manualLogin = async function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) return showAlert("Please enter both email and password.");
+            showLoading();
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAlert("Invalid email or password.");
+            } finally {
+                hideLoading();
+            }
+        };
+
+        const handleGoogleSignIn = () => {
+            showLoading();
+            signInWithPopup(auth, googleProvider)
+                .catch(err => showAlert(err.message))
+                .finally(hideLoading);
+        }
+        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleSignIn);
+        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleSignIn);
+        window.logout = async () => {
+            showLoading();
+            await signOut(auth);
+            hideLoading();
+        };
+
+        async function processReferral(newUserRef, newUsername, referralCode) {
+            if (!referralCode) return;
+            const q = query(collection(db, "users"), where("referralCode", "==", referralCode));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                const inviterDoc = querySnapshot.docs[0];
+                const inviterRef = inviterDoc.ref;
+                const batch = writeBatch(db);
+                batch.update(inviterRef, {
+                    invitedUsers: arrayUnion(newUsername)
+                });
+                batch.update(newUserRef, {
+                    inviter: inviterDoc.data().username
+                });
+                await batch.commit();
+            }
+        }
+
+        async function setupUser(user, username, referralCode) {
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
+            if (!userSnap.exists()) {
+                const displayName = username || user.displayName || "User";
+                const userData = {
+                    uid: user.uid, email: user.email, username: displayName,
+                    referralCode: generateReferralCode(),
+                    createdAt: serverTimestamp(), balance: 0, plan: null,
+                    inviter: null, invitedUsers: [],
+                    isBlocked: false,
+                    totalProfit: 0,
+                    referralProcessed: !!referralCode // Mark as processed if code was provided at signup
+                };
+                await setDoc(userRef, userData);
+                if (referralCode) {
+                    await processReferral(userRef, displayName, referralCode);
+                }
+                 await addDoc(collection(db, 'activities'), {
+                    type: 'New User',
+                    message: `${displayName} has joined.`,
+                    timestamp: serverTimestamp()
+                });
+                if (!user.displayName && displayName !== "User") {
+                    await updateProfile(user, { displayName });
+                }
+            }
+        }
+        
+        async function handlePostGoogleSignupReferral() {
+            if (currentUserData.referralProcessed || currentUserData.inviter) return;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            
+            if (refCode) {
+                const userRef = doc(db, 'users', currentUser.uid);
+                await processReferral(userRef, currentUserData.username, refCode);
+                await updateDoc(userRef, { referralProcessed: true });
+                const referralNotice = document.getElementById('referral-notice');
+                if (referralNotice) referralNotice.remove();
+                showAlert("Referral successfully applied!");
+            }
+        }
+
+
+        // --- APP INITIALIZATION & RENDERING ---
+        async function initializeAppView(user) {
+            await setupUser(user);
+            showView('mainView');
+            renderUserHeader(user);
+            renderUserNav();
+            renderUserContent();
+            
+            unsubscribes.push(onSnapshot(doc(db, 'users', user.uid), docSnap => {
+                currentUserData = docSnap.data();
+                if (currentUserData) {
+                    renderProfile(currentUserData);
+                    renderEarn(currentUserData);
+                    renderTeam(currentUserData);
+                    renderWithdrawPage();
+                    handlePostGoogleSignupReferral();
+                }
+            }));
+            unsubscribes.push(onSnapshot(query(collection(db, 'users', user.uid, 'history'), orderBy('timestamp', 'desc')), snap => {
+                renderHistory(snap.docs);
+                updateUserChart(snap.docs);
+            }));
+            unsubscribes.push(onSnapshot(query(collection(db, 'plans'), orderBy('price', 'asc')), snap => renderPlans(snap.docs)));
+
+             unsubscribes.push(onSnapshot(query(collection(db, 'paymentMethods'), where("isActive", "==", true)), snap => {
+                renderDeposit(snap.docs);
+            }));
+
+            unsubscribes.push(onSnapshot(query(collection(db, "withdrawals"), where("userId", "==", user.uid), orderBy("timestamp", "desc")), snap => {
+                renderWithdrawalHistory(snap.docs);
+            }));
+
+            showSection('profile');
+        }
+
+        function renderUserHeader(user) {
+            mainHeader.className = 'bg-white shadow-md sticky top-0 z-10';
+            mainHeader.innerHTML = `
+                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <div class="flex items-center gap-3"><i class="fas fa-water text-3xl text-blue-600"></i><h1 class="text-2xl font-bold text-gray-800">ROYAL OCEAN</h1></div>
+                    <div class="flex items-center gap-3">
+                         <span class="font-semibold hidden sm:block">Hello, ${user.displayName.split(' ')[0]}</span>
+                         <img src="${user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}&background=random`}" class="w-10 h-10 rounded-full" alt="Avatar">
+                         <button onclick="logout()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md !py-1.5 !px-3"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
+                    </div>
+                </div>`;
+        }
+
+        function renderUserNav() {
+            const navItems = [
+                { id: 'profile', icon: 'fa-tachometer-alt', text: 'Dashboard' }, { id: 'plans', icon: 'fa-gem', text: 'Plans' },
+                { id: 'deposit', icon: 'fa-wallet', text: 'Deposit' }, { id: 'withdraw', icon: 'fa-money-bill-wave', text: 'Withdraw' },
+                { id: 'earn', icon: 'fa-hand-holding-usd', text: 'Earn Money' }, { id: 'team', icon: 'fa-users', text: 'Team' },
+                { id: 'history', icon: 'fa-history', text: 'History' },
+                { id: 'support', icon: 'fa-headset', text: 'Support' },
+            ];
+            sidebarNav.innerHTML = navItems.map(item => `
+                <a href="#" data-section="${item.id}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas ${item.icon} w-5 text-center text-gray-500"></i> ${item.text}
+                </a>`).join('');
+            sidebarNav.querySelectorAll('a').forEach(a => a.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(a.dataset.section);
+            }));
+        }
+
+        function renderUserContent() {
+            mainContent.innerHTML = `
+                <section id="profile" class="hidden"></section>
+                <section id="plans" class="hidden"></section>
+                <section id="deposit" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="withdraw" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="earn" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="team" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="history" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="support" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+            `;
+            renderWithdrawPage();
+            renderSupportPage();
+        }
+        
+        function renderProfile(data) {
+           if (!data) return;
+            const profileSection = document.getElementById('profile');
+            if (!profileSection) return;
+            
+            const planName = data.plan ? data.plan.name : 'None';
+            const daysLeft = data.plan ? Math.ceil((data.plan.endDate.toDate() - new Date()) / (1000 * 60 * 60 * 24)) : 0;
+
+            let referralNoticeHTML = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+
+            if(refCode && !data.inviter && !data.referralProcessed) {
+                referralNoticeHTML = `
+                <div id="referral-notice" class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded-r-lg" role="alert">
+                  <p class="font-bold">Welcome!</p>
+                  <p>It looks like you were referred. We're applying the referral code now...</p>
+                </div>
+                `;
+            }
+
+            profileSection.innerHTML = `
+                ${referralNoticeHTML}
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                            <div class="flex flex-wrap justify-between items-center gap-4">
+                                <div>
+                                    <p class="text-gray-500">Available Balance</p>
+                                    <p class="text-4xl font-extrabold text-gray-800">PKR ${data.balance.toFixed(2)}</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="showSection('deposit')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-plus-circle"></i> Deposit</button>
+                                    <button onclick="showSection('withdraw')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"><i class="fas fa-arrow-circle-down"></i> Withdraw</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-bold mb-4">Earnings Overview</h3>
+                            <canvas id="earningsChartCanvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-bold mb-4">Investment Status</h3>
+                        <div class="space-y-4">
+                            <div class="bg-green-50 text-green-800 p-4 rounded-lg">
+                                <p class="text-sm">Active Plan</p>
+                                <p class="font-bold text-xl">${planName}</p>
+                            </div>
+                            <div class="bg-yellow-50 text-yellow-800 p-4 rounded-lg">
+                                <p class="text-sm">Plan Ends In</p>
+                                <p class="font-bold text-xl">${data.plan ? (daysLeft > 0 ? daysLeft : 0) + ' days' : 'N/A'}</p>
+                            </div>
+                             <div class="bg-indigo-50 text-indigo-800 p-4 rounded-lg">
+                                <p class="text-sm">Lifetime Earnings</p>
+                                <p class="font-bold text-xl">PKR <span id="lifetime-earnings">0.00</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            initUserChart();
+        }
+
+        function initUserChart() {
+            const ctx = document.getElementById('earningsChartCanvas')?.getContext('2d');
+            if (!ctx) return;
+            if (userChart) { userChart.destroy(); }
+            userChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Earnings (PKR)',
+                        data: [],
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateUserChart(historyDocs) {
+            if (!userChart) return;
+            
+            const earningsData = historyDocs
+                .map(doc => doc.data())
+                .filter(item => item.type === 'Daily Earning' || item.type === 'Referral Bonus')
+                .sort((a, b) => a.timestamp.seconds - b.timestamp.seconds);
+
+            const labels = earningsData.map(item => item.timestamp.toDate().toLocaleDateString(undefined, { month: 'short', day: 'numeric'}));
+            const data = earningsData.map(item => item.amount);
+
+            let lifetimeEarnings = 0;
+            if(data.length > 0) {
+                lifetimeEarnings = data.reduce((acc, curr) => acc + curr, 0);
+            }
+            const lifetimeEl = document.getElementById('lifetime-earnings');
+            if (lifetimeEl) {
+                lifetimeEl.textContent = lifetimeEarnings.toFixed(2);
+            }
+            
+            userChart.data.labels = labels;
+            userChart.data.datasets[0].data = data;
+            userChart.update();
+        }
+        
+        function renderPlans(docs) {
+            const container = document.getElementById('plans');
+            if(!container) return;
+            container.innerHTML = `<h2 class="text-3xl font-extrabold mb-2">Investment Plans</h2>
+                <p class="text-gray-500 mb-8">Choose a plan that fits your financial goals.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="plansGrid"></div>`;
+            const grid = document.getElementById('plansGrid');
+            if (docs.empty) {
+                grid.innerHTML = `<p>No investment plans available at the moment.</p>`;
+                return;
+            }
+            grid.innerHTML = docs.map(doc => {
+                const plan = doc.data();
+                return `
+                    <div class="border-2 rounded-xl p-6 flex flex-col bg-white hover:shadow-2xl hover:border-blue-500 transition-all duration-300">
+                        <h3 class="text-xl font-bold text-blue-700">${plan.name}</h3>
+                        <p class="text-4xl font-extrabold my-4">PKR ${plan.price}</p>
+                        <ul class="space-y-3 text-gray-600 mb-6 flex-grow">
+                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> Daily Earning: <strong>PKR ${plan.daily}</strong></li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> Duration: <strong>${plan.duration} Days</strong></li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> Total Profit: <strong>PKR ${plan.daily * plan.duration}</strong></li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> Referral Bonus: <strong>PKR ${plan.refBonus}</strong></li>
+                        </ul>
+                        <button onclick="buyPlan('${doc.id}', ${plan.price})" class="w-full mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-transform hover:scale-105">Choose Plan</button>
+                    </div>`;
+            }).join('');
+        }
+
+        window.buyPlan = async function(planId, price) {
+            if (currentUserData.plan) {
+                return showAlert("You already have an active plan. You can only purchase a new plan once the current one expires.");
+            }
+            if (currentUserData.balance < price) {
+                return showAlert("Insufficient balance. Please deposit funds to purchase this plan.");
+            }
+            if (!confirm("Are you sure you want to buy this plan? The price will be deducted from your balance.")) return;
+
+            showLoading();
+            try {
+                const planRef = doc(db, 'plans', planId);
+                const planSnap = await getDoc(planRef);
+                if (!planSnap.exists()) throw new Error("Plan not found.");
+                const planData = planSnap.data();
+
+                const batch = writeBatch(db);
+                const userRef = doc(db, 'users', currentUser.uid);
+
+                const endDate = new Date();
+                endDate.setDate(endDate.getDate() + planData.duration);
+                
+                batch.update(userRef, {
+                    balance: increment(-price),
+                    plan: {
+                        id: planId,
+                        name: planData.name,
+                        dailyEarning: planData.daily,
+                        duration: planData.duration,
+                        startDate: serverTimestamp(),
+                        endDate: endDate,
+                        lastClaim: null
+                    }
+                });
+
+                batch.set(doc(collection(userRef, 'history')), {
+                    type: 'Plan Purchase',
+                    amount: -price,
+                    description: `Purchased ${planData.name}`,
+                    timestamp: serverTimestamp()
+                });
+                
+                if(currentUserData.inviter) {
+                    const q = query(collection(db, 'users'), where('username', '==', currentUserData.inviter));
+                    const inviterSnap = await getDocs(q);
+                    if(!inviterSnap.empty) {
+                        const inviterDoc = inviterSnap.docs[0];
+                        const inviterRef = inviterDoc.ref;
+                        batch.update(inviterRef, { balance: increment(planData.refBonus) });
+                        batch.set(doc(collection(inviterRef, 'history')), {
+                            type: 'Referral Bonus',
+                            amount: planData.refBonus,
+                            description: `Bonus from ${currentUserData.username}'s purchase of ${planData.name}`,
+                            timestamp: serverTimestamp()
+                        });
+                    }
+                }
+                
+                await addDoc(collection(db, 'activities'), {
+                    type: 'Plan Purchase',
+                    message: `${currentUserData.username} purchased ${planData.name}.`,
+                    timestamp: serverTimestamp()
+                });
+
+                await batch.commit();
+                showAlert("Plan purchased successfully!");
+            } catch (error) {
+                showAlert("Error purchasing plan: " + error.message);
+            } finally {
+                hideLoading();
+            }
+        };
+        
+        function renderDeposit(docs = []) {
+            const el = document.getElementById('deposit');
+            if (el) {
+                let methodsHTML = '<p class="text-center p-4 bg-gray-50">No deposit methods are available right now. Please check back later.</p>';
+                if(docs.length > 0) {
+                    methodsHTML = docs.map(doc => {
+                        const method = doc.data();
+                        return `
+                            <div class="border rounded-lg p-4 flex items-center gap-4">
+                                <img src="${method.logoUrl}" alt="${method.name}" class="w-12 h-12 object-contain">
+                                <div>
+                                    <h4 class="font-bold">${method.name}</h4>
+                                    <p class="text-sm text-gray-600 whitespace-pre-wrap">${method.details}</p>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                el.innerHTML = `
+                    <h2 class="text-2xl font-bold mb-6">Deposit Funds</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                             <h3 class="text-lg font-semibold mb-4">Step 1: Send Payment</h3>
+                            <div class="space-y-4">
+                                ${methodsHTML}
+                            </div>
+                        </div>
+                        <div>
+                             <h3 class="text-lg font-semibold mb-4">Step 2: Submit Details</h3>
+                            <div class="space-y-4">
+                                <input id="depAmount" type="number" placeholder="Amount Sent (PKR)" class="w-full px-4 py-3 border rounded-lg">
+                                <input id="depTxnId" type="text" placeholder="Transaction ID" class="w-full px-4 py-3 border rounded-lg">
+                                <button onclick="submitDeposit()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg">Submit Deposit Request</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        window.submitDeposit = async function() {
+            const amount = parseFloat(document.getElementById('depAmount').value);
+            const txnId = document.getElementById('depTxnId').value.trim();
+            if (!amount || amount <= 0 || !txnId) {
+                return showAlert("Please enter a valid amount and transaction ID.");
+            }
+            showLoading();
+            try {
+                await addDoc(collection(db, 'deposits'), {
+                    userId: currentUser.uid,
+                    username: currentUserData.username,
+                    email: currentUserData.email,
+                    amount: amount,
+                    txnId: txnId,
+                    status: 'pending',
+                    timestamp: serverTimestamp()
+                });
+                showAlert("Deposit request submitted successfully. It will be reviewed by an admin shortly.");
+                document.getElementById('depAmount').value = '';
+                document.getElementById('depTxnId').value = '';
+            } catch (error) {
+                showAlert("Error submitting request: " + error.message);
+            } finally {
+                hideLoading();
+            }
+        };
+
+        function renderWithdrawPage() {
+             const el = document.getElementById('withdraw');
+            if (!el) return;
+            el.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-6">Request Withdrawal</h2>
+                        <div class="space-y-4 max-w-lg">
+                            <p class="bg-yellow-50 text-yellow-700 p-4 rounded-lg">
+                                Withdrawals are processed within 24 hours. Your current balance is <strong id="withdrawBalanceDisplay">PKR 0.00</strong>.
+                            </p>
+                            <input id="withAmount" type="number" placeholder="Amount (PKR)" class="w-full px-4 py-3 border rounded-lg">
+                             <input id="withBankName" type="text" placeholder="Bank Name (e.g., HBL, JazzCash)" class="w-full px-4 py-3 border rounded-lg">
+                            <input id="withAccount" type="text" placeholder="Your Account Number" class="w-full px-4 py-3 border rounded-lg">
+                            <input id="withAccountName" type="text" placeholder="Account Holder Name" class="w-full px-4 py-3 border rounded-lg">
+                            <button onclick="submitWithdraw()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg">Submit Withdraw Request</button>
+                        </div>
+                    </div>
+                    <div>
+                         <h2 class="text-2xl font-bold mb-6">Withdrawal History</h2>
+                         <div id="withdrawalHistoryList" class="space-y-3 max-h-[40vh] overflow-y-auto custom-scrollbar pr-2"></div>
+                    </div>
+                </div>
+                `;
+        }
+
+        function renderWithdrawalHistory(docs) {
+             const list = document.getElementById('withdrawalHistoryList');
+             if(!list) return;
+
+            if (docs.empty) {
+                list.innerHTML = `<p class="text-center p-4 bg-gray-50 rounded-lg">No withdrawal requests yet.</p>`;
+                return;
+            }
+
+            const statusStyles = {
+                pending: { text: 'Pending', color: 'bg-yellow-400' },
+                approved: { text: 'Approved', color: 'bg-green-500' },
+                rejected: { text: 'Rejected', color: 'bg-red-500' },
+            };
+
+            list.innerHTML = docs.map(doc => {
+                const req = doc.data();
+                const status = statusStyles[req.status] || {text: 'Unknown', color: 'bg-gray-400'};
+                return `
+                    <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold">PKR ${req.amount.toFixed(2)}</p>
+                            <p class="text-sm text-gray-500">${req.timestamp.toDate().toLocaleDateString()}</p>
+                        </div>
+                        <span class="text-white text-xs font-bold px-2 py-1 rounded-full ${status.color}">${status.text}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        window.submitWithdraw = async function() {
+            const amount = parseFloat(document.getElementById('withAmount').value);
+            const bankName = document.getElementById('withBankName').value.trim();
+            const account = document.getElementById('withAccount').value.trim();
+            const accountName = document.getElementById('withAccountName').value.trim();
+
+            if (!amount || amount <= 0 || !bankName || !account || !accountName) {
+                return showAlert("Please fill out all fields.");
+            }
+            if (amount > currentUserData.balance) {
+                return showAlert("Withdrawal amount cannot exceed your current balance.");
+            }
+            showLoading();
+            try {
+                 await addDoc(collection(db, 'withdrawals'), {
+                    userId: currentUser.uid,
+                    username: currentUserData.username,
+                    email: currentUserData.email,
+                    amount: amount,
+                    bankName: bankName,
+                    account: account,
+                    accountName: accountName,
+                    status: 'pending',
+                    timestamp: serverTimestamp()
+                });
+                
+                showAlert("Withdrawal request submitted. It will be processed by an admin.");
+                document.getElementById('withAmount').value = '';
+                document.getElementById('withBankName').value = '';
+                document.getElementById('withAccount').value = '';
+                document.getElementById('withAccountName').value = '';
+            } catch(e) {
+                showAlert("Error submitting request: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        };
+        
+        function renderEarn(data) {
+             const earnSection = document.getElementById('earn');
+             if(!earnSection || !data) return;
+             
+             if(!data.plan) {
+                 earnSection.innerHTML = `<h2 class="text-2xl font-bold mb-6">Earn Money</h2>
+                    <p class="text-center p-8 bg-gray-50 rounded-lg">You do not have an active investment plan. Purchase a plan to start earning daily.</p>`;
+                 return;
+             }
+             
+             const lastClaim = data.plan.lastClaim?.toDate();
+             const now = new Date();
+             const canClaim = !lastClaim || (now.getTime() - lastClaim.getTime()) >= 24 * 60 * 60 * 1000;
+             
+             earnSection.innerHTML = `
+                <h2 class="text-2xl font-bold mb-6">Daily Earnings</h2>
+                <div class="text-center p-8 border-dashed border-2 rounded-lg">
+                    <p class="text-lg">Your daily earning from <strong>${data.plan.name}</strong> is:</p>
+                    <p class="text-4xl font-extrabold text-green-600 my-4">PKR ${data.plan.dailyEarning.toFixed(2)}</p>
+                    <button id="claimBtn" onclick="claimDaily()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform hover:scale-105" ${!canClaim ? 'disabled' : ''}>
+                        ${canClaim ? 'Claim Now' : 'Claimed Today'}
+                    </button>
+                    <p id="countdownTimer" class="mt-4 text-gray-500"></p>
+                </div>
+             `;
+             
+             if (!canClaim && lastClaim) {
+                if (earnTimerInterval) clearInterval(earnTimerInterval);
+                const nextClaimTime = new Date(lastClaim.getTime() + 24 * 60 * 60 * 1000);
+                earnTimerInterval = setInterval(() => {
+                    const timerEl = document.getElementById('countdownTimer');
+                    if (!timerEl) {
+                        clearInterval(earnTimerInterval);
+                        return;
+                    }
+                    const timeLeft = nextClaimTime - new Date();
+                    if (timeLeft <= 0) {
+                        clearInterval(earnTimerInterval);
+                        if(currentUserData) renderEarn(currentUserData); 
+                        return;
+                    }
+                    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    timerEl.textContent = `Next claim available in: ${hours}h ${minutes}m ${seconds}s`;
+                }, 1000);
+             }
+        }
+
+        window.claimDaily = async function() {
+            if (!currentUserData.plan) return showAlert("No active plan.");
+            
+            showLoading();
+            try {
+                const userRef = doc(db, 'users', currentUser.uid);
+                const batch = writeBatch(db);
+                batch.update(userRef, {
+                    balance: increment(currentUserData.plan.dailyEarning),
+                    'plan.lastClaim': serverTimestamp(),
+                    totalProfit: increment(currentUserData.plan.dailyEarning)
+                });
+                batch.set(doc(collection(userRef, 'history')), {
+                    type: 'Daily Earning',
+                    amount: currentUserData.plan.dailyEarning,
+                    description: `Claim from ${currentUserData.plan.name}`,
+                    timestamp: serverTimestamp()
+                });
+                await batch.commit();
+                showAlert("Daily earning claimed successfully!");
+            } catch(e) {
+                showAlert("Error claiming earnings: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        };
+
+        function renderTeam(data) {
+            const teamSection = document.getElementById('team');
+            if (!teamSection || !data) return;
+            const refLink = `${window.location.origin}${window.location.pathname}?ref=${data.referralCode}`;
+            teamSection.innerHTML = `
+                <h2 class="text-2xl font-bold mb-6">My Team</h2>
+                <p class="mb-2">Share your unique referral code or link with friends to earn bonuses:</p>
+                <div class="flex items-center gap-2 mb-6">
+                    <input id="refLinkInput" type="text" readonly value="${refLink}" class="w-full px-4 py-2 border rounded-lg bg-gray-100">
+                    <button onclick="copyRefLink()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Copy Link</button>
+                </div>
+                 <p class="mb-2">Your referral code is:</p>
+                <div class="flex items-center gap-2 mb-6">
+                    <input id="refCodeInput" type="text" readonly value="${data.referralCode}" class="w-full px-4 py-2 border rounded-lg bg-gray-100">
+                    <button onclick="copyRefCode()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Copy Code</button>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Invited Users (${data.invitedUsers?.length || 0})</h3>
+                <div id="invitedList" class="space-y-2">
+                    ${data.invitedUsers && data.invitedUsers.length > 0 ? data.invitedUsers.map(u => `<p class="p-2 bg-gray-50 rounded">${u}</p>`).join('') : '<p>You have not invited anyone yet.</p>'}
+                </div>
+            `;
+        }
+        
+        window.copyRefLink = function() {
+            const linkInput = document.getElementById('refLinkInput');
+            linkInput.select();
+            document.execCommand('copy');
+            showAlert("Referral link copied to clipboard!");
+        }
+
+        window.copyRefCode = function() {
+            const codeInput = document.getElementById('refCodeInput');
+            codeInput.select();
+            document.execCommand('copy');
+            showAlert("Referral code copied to clipboard!");
+        }
+
+        function renderHistory(docs) {
+            const container = document.getElementById('history');
+            if (!container) return;
+            container.innerHTML = `<h2 class="text-3xl font-extrabold mb-6">Transaction History</h2>
+                <div id="historyList" class="space-y-3 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2"></div>`;
+            const list = document.getElementById('historyList');
+            if (docs.empty) {
+                list.innerHTML = `<p class="text-center p-8 bg-gray-50 rounded-lg">No transactions yet.</p>`;
+                return;
+            }
+
+            const iconMap = {
+                'Deposit': { icon: 'fa-wallet', color: 'text-blue-500', bg: 'bg-blue-50' },
+                'Withdrawal': { icon: 'fa-paper-plane', color: 'text-red-500', bg: 'bg-red-50' },
+                'Plan Purchase': { icon: 'fa-gem', color: 'text-purple-500', bg: 'bg-purple-50' },
+                'Daily Earning': { icon: 'fa-hand-holding-usd', color: 'text-green-500', bg: 'bg-green-50' },
+                'Referral Bonus': { icon: 'fa-users', color: 'text-yellow-500', bg: 'bg-yellow-50' }
+            };
+
+            list.innerHTML = docs.map(doc => {
+                const item = doc.data();
+                const isCredit = item.amount > 0;
+                const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Date unavailable';
+                const details = iconMap[item.type] || { icon: 'fa-question-circle', color: 'text-gray-500', bg: 'bg-gray-50' };
+
+                return `
+                    <div class="flex items-center justify-between p-4 rounded-lg bg-white border">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center ${details.bg}">
+                                <i class="fas ${details.icon} ${details.color}"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">${item.type}</p>
+                                <p class="text-sm text-gray-500">${date}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                             <p class="font-bold text-lg ${isCredit ? 'text-green-600' : 'text-red-600'}">
+                                ${isCredit ? '+' : ''}PKR ${Math.abs(item.amount).toFixed(2)}
+                            </p>
+                            <p class="text-xs text-gray-400">${item.description || ''}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderSupportPage() {
+            const container = document.getElementById('support');
+            if(!container) return;
+            container.innerHTML = `
+                <h2 class="text-3xl font-extrabold mb-6">Customer Support</h2>
+                <div class="space-y-6">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6 flex items-center gap-6">
+                        <i class="fab fa-whatsapp text-5xl text-green-500"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">WhatsApp Support</h3>
+                            <p class="text-gray-600 mb-2">For any questions or issues, please contact our support team on WhatsApp.</p>
+                            <a href="https://wa.me/923030948131" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg inline-block">Contact Us</a>
+                        </div>
+                    </div>
+                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 flex items-center gap-6">
+                        <i class="fab fa-whatsapp-square text-5xl text-blue-500"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">WhatsApp Channel</h3>
+                            <p class="text-gray-600 mb-2">Join our WhatsApp channel for the latest updates, news, and announcements.</p>
+                            <a href="https://whatsapp.com/channel/0029Vb6Gx7LKWEKrxZVXWK0o" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg inline-block">Join Channel</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- ADMIN PANEL FUNCTIONS ---
+        async function initializeAdminPanel(user) {
+            showView('mainView');
+            renderAdminHeader(user);
+            renderAdminNav();
+            renderAdminContent();
+            
+            listenToAdminData();
+            showSection('admin-dashboard');
+        }
+        function renderAdminHeader(user) {
+             mainHeader.className = 'bg-gray-800 shadow-md sticky top-0 z-10';
+            mainHeader.innerHTML = `
+                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <div class="flex items-center gap-3"><i class="fas fa-user-shield text-3xl text-white"></i><h1 class="text-2xl font-bold text-white">Admin Panel</h1></div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-semibold text-white hidden sm:block">Welcome, Admin</span>
+                        <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
+                    </div>
+                </div>`;
+        }
+        function renderAdminNav() {
+             const navItems = [
+                { id: 'admin-dashboard', icon: 'fa-tachometer-alt', text: 'Dashboard' },
+                { id: 'admin-users', icon: 'fa-users-cog', text: 'Manage Users' },
+                { id: 'admin-plans', icon: 'fa-gem', text: 'Manage Plans' },
+                 { id: 'admin-methods', icon: 'fa-credit-card', text: 'Payment Methods' },
+                { id: 'admin-deposits', icon: 'fa-inbox', text: 'Deposit Requests' },
+                { id: 'admin-withdrawals', icon: 'fa-paper-plane', text: 'Withdrawal Requests' },
+                 { id: 'support', icon: 'fa-headset', text: 'Support' },
+            ];
+            sidebarNav.innerHTML = navItems.map(item => `
+                <a href="#" data-section="${item.id}" class="flex items-center justify-between gap-3 p-3 rounded-lg hover:bg-gray-100 transition-colors relative">
+                    <div class="flex items-center gap-3">
+                       <i class="fas ${item.icon} w-5 text-center text-gray-500"></i> 
+                       <span>${item.text}</span>
+                    </div>
+                    <span id="${item.id}-badge" class="bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold hidden"></span>
+                </a>`).join('');
+            sidebarNav.querySelectorAll('a').forEach(a => a.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(a.dataset.section);
+            }));
+        }
+        function renderAdminContent() {
+            mainContent.innerHTML = `
+                <section id="admin-dashboard" class="hidden"></section>
+                <section id="admin-users" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="admin-plans" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="admin-methods" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="admin-deposits" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="admin-withdrawals" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+                <section id="support" class="bg-white rounded-xl shadow-lg p-6 hidden"></section>
+            `;
+             renderSupportPage();
+        }
+        function listenToAdminData() {
+            unsubscribes.push(onSnapshot(collection(db, 'users'), snap => {
+                renderUsersList(snap.docs);
+                updateAdminChart(snap.docs);
+                updateAdminPieChart(snap.docs);
+                const totalUsersEl = document.getElementById('total-users');
+                if (totalUsersEl) totalUsersEl.textContent = snap.size;
+
+                const totalProfit = snap.docs.reduce((sum, doc) => sum + (doc.data().totalProfit || 0), 0);
+                const totalProfitEl = document.getElementById('total-profit-paid');
+                if(totalProfitEl) totalProfitEl.textContent = `PKR ${totalProfit.toFixed(0)}`;
+            }));
+             unsubscribes.push(onSnapshot(collection(db, 'plans'), snap => {
+                renderPlanManagement(snap.docs);
+                const totalPlansEl = document.getElementById('total-plans');
+                if (totalPlansEl) totalPlansEl.textContent = snap.size;
+            }));
+            
+            const depositsQuery = query(collection(db, 'deposits'));
+            unsubscribes.push(onSnapshot(depositsQuery, snap => {
+                allAdminDeposits = snap.docs;
+                let total = 0;
+                let pendingCount = 0;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    if(data.status === 'pending') pendingCount++;
+                    if(data.status === 'approved') total += data.amount;
+                });
+                renderDepositRequests('pending');
+                updateBadge('admin-deposits', pendingCount);
+                const totalDepositsEl = document.getElementById('total-deposits');
+                if(totalDepositsEl) totalDepositsEl.textContent = `PKR ${total.toFixed(0)}`;
+            }));
+            
+            const withdrawalsQuery = query(collection(db, 'withdrawals'));
+            unsubscribes.push(onSnapshot(withdrawalsQuery, snap => {
+                allAdminWithdrawals = snap.docs;
+                let total = 0;
+                let pendingCount = 0;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    if(data.status === 'pending') pendingCount++;
+                    if(data.status === 'approved') total += data.amount;
+                });
+                renderWithdrawalRequests('pending');
+                updateBadge('admin-withdrawals', pendingCount);
+                const totalWithdrawalsEl = document.getElementById('total-withdrawals');
+                if(totalWithdrawalsEl) totalWithdrawalsEl.textContent = `PKR ${total.toFixed(0)}`;
+            }));
+
+            const activitiesQuery = query(collection(db, 'activities'), orderBy('timestamp', 'desc'), limit(10));
+            unsubscribes.push(onSnapshot(activitiesQuery, snap => {
+                renderRecentActivities(snap.docs);
+            }));
+
+            unsubscribes.push(onSnapshot(collection(db, 'paymentMethods'), snap => {
+                renderPaymentMethods(snap.docs);
+            }));
+            
+            renderAdminDashboard(); 
+        }
+
+        function updateBadge(id, count) {
+            const badge = document.getElementById(`${id}-badge`);
+            if (!badge) return;
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function renderAdminDashboard() {
+            const dashboard = document.getElementById('admin-dashboard');
+            if(!dashboard) return;
+            dashboard.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+                     <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center gap-4">
+                           <i class="fas fa-users text-4xl text-blue-500"></i>
+                            <div>
+                                <p class="text-gray-500">Total Users</p>
+                                <p id="total-users" class="text-3xl font-bold">0</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-wallet text-4xl text-green-500"></i>
+                            <div>
+                                <p class="text-gray-500">Total Deposits</p>
+                                <p id="total-deposits" class="text-3xl font-bold">PKR 0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-paper-plane text-4xl text-red-500"></i>
+                            <div>
+                                <p class="text-gray-500">Total Withdrawals</p>
+                                <p id="total-withdrawals" class="text-3xl font-bold">PKR 0</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-xl shadow-lg p-6">
+                         <div class="flex items-center gap-4">
+                            <i class="fas fa-chart-line text-4xl text-indigo-500"></i>
+                            <div>
+                                <p class="text-gray-500">Total Profit Paid</p>
+                                <p id="total-profit-paid" class="text-3xl font-bold">PKR 0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <div class="lg:col-span-3 bg-white rounded-xl shadow-lg p-6">
+                         <h3 class="text-lg font-bold mb-4">New Users Growth</h3>
+                         <canvas id="adminChartCanvas"></canvas>
+                    </div>
+                     <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+                         <h3 class="text-lg font-bold mb-4">Plan Distribution</h3>
+                         <canvas id="adminPieChartCanvas" class="max-h-80 mx-auto"></canvas>
+                    </div>
+                </div>
+                 <div class="bg-white rounded-xl shadow-lg p-6 mt-6">
+                     <h3 class="text-lg font-bold mb-4">Recent Activity</h3>
+                     <div id="activity-feed" class="space-y-3 custom-scrollbar overflow-y-auto max-h-96 pr-2"></div>
+                </div>
+            `;
+            initAdminChart();
+            initAdminPieChart();
+        }
+
+        function initAdminChart() {
+            const ctx = document.getElementById('adminChartCanvas')?.getContext('2d');
+            if (!ctx) return;
+            if (adminChart) adminChart.destroy();
+            adminChart = new Chart(ctx, { 
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'New Users per Day',
+                        data: [],
+                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+             });
+        }
+
+        function initAdminPieChart() {
+             const ctx = document.getElementById('adminPieChartCanvas')?.getContext('2d');
+            if (!ctx) return;
+            if (adminPieChart) adminPieChart.destroy();
+            adminPieChart = new Chart(ctx, { 
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Users per Plan',
+                        data: [],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)', 'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                 options: { responsive: true, maintainAspectRatio: false }
+             });
+        }
+        
+        function updateAdminChart(userDocs) {
+            if(!adminChart) return;
+            const userCounts = userDocs.reduce((acc, doc) => {
+                if(!doc.data().createdAt) return acc;
+                const date = doc.data().createdAt.toDate().toLocaleDateString(undefined, { month: 'short', day: 'numeric'});
+                acc[date] = (acc[date] || 0) + 1;
+                return acc;
+            }, {});
+
+            const sortedDates = Object.keys(userCounts).sort((a,b) => new Date(a) - new Date(b));
+            const labels = sortedDates;
+            const data = labels.map(label => userCounts[label]);
+
+            adminChart.data.labels = labels;
+            adminChart.data.datasets[0].data = data;
+            adminChart.update();
+        }
+
+        function updateAdminPieChart(userDocs) {
+            if(!adminPieChart) return;
+            const planCounts = userDocs.reduce((acc, doc) => {
+                const planName = doc.data().plan?.name || 'No Plan';
+                acc[planName] = (acc[planName] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const labels = Object.keys(planCounts);
+            const data = Object.values(planCounts);
+
+            adminPieChart.data.labels = labels;
+            adminPieChart.data.datasets[0].data = data;
+            adminPieChart.update();
+        }
+
+        function renderRecentActivities(docs) {
+            const feed = document.getElementById('activity-feed');
+            if(!feed) return;
+            if(docs.empty) {
+                feed.innerHTML = '<p>No recent activity.</p>';
+                return;
+            }
+            feed.innerHTML = docs.map(doc => {
+                const act = doc.data();
+                return `<div class="text-sm text-gray-600">${act.message} <span class="text-xs text-gray-400 block">${act.timestamp.toDate().toLocaleString()}</span></div>`;
+            }).join('<hr class="my-2">');
+        }
+        
+        function renderUsersList(docs) {
+             const container = document.getElementById('admin-users');
+             if(!container) return;
+             container.innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold">User Management</h2>
+                        <p class="text-gray-500">Edit user balances and block or unblock their access.</p>
+                    </div>
+                    <input type="text" id="userSearchInput" placeholder="Search by name or email..." class="w-full md:w-72 px-4 py-2 border rounded-lg">
+                </div>
+                <div class="overflow-x-auto"><table class="w-full text-left">
+                    <thead class="bg-gray-50"><tr class="border-b"><th class="p-3">User</th><th class="p-3">Balance</th><th class="p-3">Total Profit</th><th class="p-3">Plan</th><th class="p-3">Referrals</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead>
+                    <tbody id="users-table-body"></tbody>
+                </table></div>`;
+            
+            document.getElementById('userSearchInput').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                document.querySelectorAll('#users-table-body tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            const tableBody = document.getElementById('users-table-body');
+            if(docs.empty) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">No users found.</td></tr>';
+                return;
+            }
+            tableBody.innerHTML = docs.map(doc => {
+                const user = doc.data();
+                const isBlocked = user.isBlocked || false;
+                return `<tr class="border-b even:bg-gray-50 hover:bg-blue-50">
+                    <td class="p-3">
+                        <p class="font-semibold">${user.username}</p>
+                        <p class="text-sm text-gray-500">${user.email}</p>
+                    </td>
+                    <td class="p-3">PKR ${user.balance.toFixed(2)}</td>
+                    <td class="p-3">PKR ${(user.totalProfit || 0).toFixed(2)}</td>
+                    <td class="p-3">${user.plan ? user.plan.name : 'None'}</td>
+                    <td class="p-3">${user.invitedUsers?.length || 0}</td>
+                    <td class="p-3">
+                        <span class="text-white text-xs font-bold px-2 py-1 rounded-full ${isBlocked ? 'bg-red-500' : 'bg-green-500'}">
+                            ${isBlocked ? 'Blocked' : 'Active'}
+                        </span>
+                    </td>
+                    <td class="p-3 flex gap-2">
+                         <button onclick="openUserDetailsModal('${doc.id}')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded text-xs">Details</button>
+                        <button onclick="openUserEditModal('${doc.id}')" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 rounded text-xs">Edit</button>
+                        <button onclick="toggleUserBlock('${doc.id}', ${isBlocked})" class="font-bold py-1 px-2 rounded text-xs ${isBlocked ? 'bg-green-200 text-green-800 hover:bg-green-300' : 'bg-red-200 text-red-800 hover:bg-red-300'}">${isBlocked ? 'Unblock' : 'Block'}</button>
+                    </td>
+                </tr>`
+            }).join('');
+        }
+        
+        window.openUserDetailsModal = async function(userId) {
+            const userSnap = await getDoc(doc(db, 'users', userId));
+            if(!userSnap.exists()) return showAlert("User not found");
+            const user = userSnap.data();
+
+            formModal.classList.remove('hidden');
+            let inviteeListHTML = '<p>No users invited yet.</p>';
+            if(user.invitedUsers && user.invitedUsers.length > 0) {
+                 inviteeListHTML = `<ul class="list-disc list-inside">${user.invitedUsers.map(name => `<li>${name}</li>`).join('')}</ul>`;
+            }
+
+            formModal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg" onclick="event.stopPropagation()">
+                    <h3 class="text-xl font-bold mb-6">User Details: ${user.username}</h3>
+                    <h4 class="font-semibold mb-2">Invited Users (${user.invitedUsers?.length || 0})</h4>
+                    <div class="bg-gray-50 p-4 rounded-md max-h-60 overflow-y-auto custom-scrollbar">${inviteeListHTML}</div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button onclick="closeFormModal()" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-lg">Close</button>
+                    </div>
+                </div>
+            `;
+            formModal.addEventListener('click', closeFormModal);
+        }
+
+        window.openUserEditModal = async function(userId) {
+            const userSnap = await getDoc(doc(db, 'users', userId));
+            if(!userSnap.exists()) return showAlert("User not found");
+            const user = userSnap.data();
+
+            formModal.classList.remove('hidden');
+            formModal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg" onclick="event.stopPropagation()">
+                    <h3 class="text-xl font-bold mb-6">Edit User: ${user.username}</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="userBalance" class="block text-sm font-medium text-gray-700">Balance (PKR)</label>
+                            <input id="userBalance" type="number" step="0.01" value="${user.balance.toFixed(2)}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button onclick="closeFormModal()" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-lg">Cancel</button>
+                        <button onclick="saveUserEdit('${userId}')" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Save Changes</button>
+                    </div>
+                </div>
+            `;
+            formModal.addEventListener('click', closeFormModal);
+        }
+
+        window.closeFormModal = function() {
+            formModal.removeEventListener('click', closeFormModal);
+            formModal.classList.add('hidden');
+        }
+
+        window.saveUserEdit = async function(userId) {
+            const newBalance = parseFloat(document.getElementById('userBalance').value);
+            if(isNaN(newBalance)) return showAlert("Please enter a valid balance.");
+
+            showLoading();
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    balance: newBalance
+                });
+                showAlert("User details updated successfully!");
+                closeFormModal();
+            } catch(e) {
+                showAlert("Error updating user: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        window.toggleUserBlock = async function(userId, isCurrentlyBlocked) {
+            const action = isCurrentlyBlocked ? "unblock" : "block";
+            if(!confirm(`Are you sure you want to ${action} this user?`)) return;
+            
+            showLoading();
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    isBlocked: !isCurrentlyBlocked
+                });
+                showAlert(`User has been ${action}ed.`);
+            } catch(e) {
+                showAlert("Error updating user status: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function renderDepositRequests(filter = 'pending') {
+             const container = document.getElementById('admin-deposits');
+            if(!container) return;
+            
+            container.innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold">Deposit Requests</h2>
+                        <p class="text-gray-500">Review and approve or reject deposit requests submitted by users.</p>
+                    </div>
+                    <div id="deposit-tabs" class="flex border border-gray-300 rounded-lg p-1">
+                        <button data-filter="pending" class="tab-button px-4 py-1 rounded-md text-sm">Pending</button>
+                        <button data-filter="approved" class="tab-button px-4 py-1 rounded-md text-sm">Approved</button>
+                        <button data-filter="rejected" class="tab-button px-4 py-1 rounded-md text-sm">Rejected</button>
+                    </div>
+                </div>
+                <div id="deposit-requests-list" class="space-y-4"></div>`;
+            
+            document.querySelectorAll('#deposit-tabs .tab-button').forEach(button => {
+                button.classList.toggle('active', button.dataset.filter === filter);
+                button.addEventListener('click', () => renderDepositRequests(button.dataset.filter));
+            });
+
+            const list = document.getElementById('deposit-requests-list');
+            const docs = allAdminDeposits.filter(doc => filter === 'all' || doc.data().status === filter);
+
+             if(docs.length === 0) {
+                list.innerHTML = `<p class="text-center p-8 bg-gray-50 rounded-lg">No ${filter} deposit requests.</p>`;
+                return;
+            }
+            list.innerHTML = docs.map(doc => {
+                const req = doc.data();
+                return `<div class="bg-gray-50 p-4 rounded-lg flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <p><strong>User:</strong> ${req.username} (${req.email})</p>
+                        <p><strong>Amount:</strong> PKR ${req.amount}</p>
+                        <p><strong>Txn ID:</strong> ${req.txnId}</p>
+                        <p class="text-xs text-gray-500">On: ${req.timestamp?.toDate().toLocaleString() || 'N/A'}</p>
+                    </div>
+                    ${req.status === 'pending' ? `
+                    <div class="flex gap-2 flex-shrink-0">
+                        <button onclick="approveDeposit('${doc.id}', '${req.userId}', ${req.amount})" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">Approve</button>
+                        <button onclick="rejectRequest('deposits', '${doc.id}')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Reject</button>
+                    </div>` : ''}
+                </div>`;
+            }).join('');
+        }
+        window.approveDeposit = async function(reqId, userId, amount) {
+            if(!confirm('Are you sure you want to approve this deposit?')) return;
+            showLoading();
+            try {
+                const batch = writeBatch(db);
+                const userRef = doc(db, 'users', userId);
+                const depositRef = doc(db, 'deposits', reqId);
+                
+                batch.update(userRef, { balance: increment(amount) });
+                batch.set(doc(collection(userRef, 'history')), {
+                    type: 'Deposit', amount: amount,
+                    description: 'Deposit approved by admin', timestamp: serverTimestamp()
+                });
+                batch.update(depositRef, { status: 'approved' });
+
+                await batch.commit();
+                showAlert("Deposit approved successfully!");
+            } catch(e) {
+                showAlert("Error: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+        window.rejectRequest = async function(collectionName, reqId) {
+            if(!confirm('Are you sure you want to reject this request?')) return;
+            showLoading();
+            try {
+                await updateDoc(doc(db, collectionName, reqId), { status: 'rejected' });
+                showAlert("Request rejected.");
+            } catch(e) {
+                 showAlert("Error: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+        function renderWithdrawalRequests(filter = 'pending') {
+             const container = document.getElementById('admin-withdrawals');
+            if(!container) return;
+             container.innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold">Withdrawal Requests</h2>
+                        <p class="text-gray-500">Process withdrawal requests. Ensure user has sufficient funds before approving.</p>
+                    </div>
+                    <div id="withdrawal-tabs" class="flex border border-gray-300 rounded-lg p-1">
+                        <button data-filter="pending" class="tab-button px-4 py-1 rounded-md text-sm">Pending</button>
+                        <button data-filter="approved" class="tab-button px-4 py-1 rounded-md text-sm">Approved</button>
+                        <button data-filter="rejected" class="tab-button px-4 py-1 rounded-md text-sm">Rejected</button>
+                    </div>
+                </div>
+                <div id="withdrawal-requests-list" class="space-y-4"></div>`;
+
+             document.querySelectorAll('#withdrawal-tabs .tab-button').forEach(button => {
+                button.classList.toggle('active', button.dataset.filter === filter);
+                button.addEventListener('click', () => renderWithdrawalRequests(button.dataset.filter));
+            });
+            
+            const list = document.getElementById('withdrawal-requests-list');
+            const docs = allAdminWithdrawals.filter(doc => filter === 'all' || doc.data().status === filter);
+
+             if(docs.length === 0) {
+                list.innerHTML = `<p class="text-center p-8 bg-gray-50 rounded-lg">No ${filter} withdrawal requests.</p>`;
+                return;
+            }
+            list.innerHTML = docs.map(doc => {
+                const req = doc.data();
+                return `<div class="bg-gray-50 p-4 rounded-lg flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <p><strong>User:</strong> ${req.username} (${req.email})</p>
+                        <p><strong>Amount:</strong> PKR ${req.amount}</p>
+                        <p><strong>Account:</strong> ${req.bankName} - ${req.accountName} (${req.account})</p>
+                        <p class="text-xs text-gray-500">On: ${req.timestamp?.toDate().toLocaleString() || 'N/A'}</p>
+                    </div>
+                     ${req.status === 'pending' ? `
+                    <div class="flex gap-2 flex-shrink-0">
+                        <button onclick="approveWithdrawal('${doc.id}', '${req.userId}', ${req.amount})" class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded">Approve</button>
+                        <button onclick="rejectRequest('withdrawals', '${doc.id}')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Reject</button>
+                    </div>` : ''}
+                </div>`;
+            }).join('');
+        }
+        window.approveWithdrawal = async function(reqId, userId, amount) {
+             if(!confirm('Are you sure you want to approve this withdrawal? This will deduct from the user balance.')) return;
+            showLoading();
+            try {
+                const userDocSnap = await getDoc(doc(db, 'users', userId));
+                if (!userDocSnap.exists() || userDocSnap.data().balance < amount) {
+                    hideLoading();
+                    return showAlert("User has insufficient balance for this withdrawal.");
+                }
+
+                const batch = writeBatch(db);
+                const userRef = doc(db, 'users', userId);
+                const withdrawalRef = doc(db, 'withdrawals', reqId);
+                
+                batch.update(userRef, { balance: increment(-amount) });
+                batch.set(doc(collection(userRef, 'history')), {
+                    type: 'Withdrawal', amount: -amount,
+                    description: 'Withdrawal approved by admin', timestamp: serverTimestamp()
+                });
+                batch.update(withdrawalRef, { status: 'approved' });
+
+                await batch.commit();
+                showAlert("Withdrawal approved successfully!");
+            } catch(e) {
+                showAlert("Error: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+        function renderPlanManagement(docs) {
+            const container = document.getElementById('admin-plans');
+            if(!container) return;
+            container.innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-2">
+                    <h2 class="text-2xl font-bold">Plan Management</h2>
+                    <button onclick="openPlanModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Add New Plan</button>
+                </div>
+                <p class="text-gray-500 mb-6">Create, edit, or delete investment plans available to users.</p>
+                <div id="plan-management-list" class="space-y-3"></div>`;
+            const list = document.getElementById('plan-management-list');
+             if(docs.empty) {
+                list.innerHTML = '<p>No plans created yet.</p>';
+                return;
+            }
+            list.innerHTML = docs.map(doc => {
+                const plan = doc.data();
+                return `
+                    <div class="bg-gray-50 p-4 rounded-lg flex flex-wrap justify-between items-center gap-4">
+                        <div>
+                            <p><strong>${plan.name}</strong> - PKR ${plan.price}</p>
+                            <p class="text-sm text-gray-600">Daily: ${plan.daily}, Duration: ${plan.duration} days, Bonus: ${plan.refBonus}</p>
+                        </div>
+                        <div class="flex gap-2 flex-shrink-0">
+                            <button onclick="openPlanModal('${doc.id}')" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded">Edit</button>
+                            <button onclick="deletePlan('${doc.id}')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        window.openPlanModal = async function(planId = null) {
+            let plan = { name: '', price: '', daily: '', duration: '', refBonus: '' };
+            if (planId) {
+                const planSnap = await getDoc(doc(db, 'plans', planId));
+                if(planSnap.exists()) plan = planSnap.data();
+            }
+            
+            formModal.classList.remove('hidden');
+            formModal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg" onclick="event.stopPropagation()">
+                    <h3 class="text-xl font-bold mb-6">${planId ? 'Edit Plan' : 'Add New Plan'}</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="planName" class="block text-sm font-medium text-gray-700">Plan Name</label>
+                            <input id="planName" type="text" placeholder="e.g., Starter Pack" value="${plan.name}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="planPrice" class="block text-sm font-medium text-gray-700">Price (PKR)</label>
+                            <input id="planPrice" type="number" placeholder="e.g., 500" value="${plan.price}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="planDaily" class="block text-sm font-medium text-gray-700">Daily Earning (PKR)</label>
+                            <input id="planDaily" type="number" placeholder="e.g., 25" value="${plan.daily}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="planDuration" class="block text-sm font-medium text-gray-700">Duration (in days)</label>
+                            <input id="planDuration" type="number" placeholder="e.g., 30" value="${plan.duration}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label for="planRefBonus" class="block text-sm font-medium text-gray-700">Referral Bonus (PKR)</label>
+                            <input id="planRefBonus" type="number" placeholder="e.g., 100" value="${plan.refBonus}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button onclick="closeFormModal()" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-lg">Cancel</button>
+                        <button onclick="savePlan('${planId || ''}')" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Save Plan</button>
+                    </div>
+                </div>
+            `;
+            formModal.addEventListener('click', closeFormModal);
+        }
+        window.savePlan = async function(planId) {
+            const planData = {
+                name: document.getElementById('planName').value.trim(),
+                price: parseFloat(document.getElementById('planPrice').value),
+                daily: parseFloat(document.getElementById('planDaily').value),
+                duration: parseInt(document.getElementById('planDuration').value),
+                refBonus: parseFloat(document.getElementById('planRefBonus').value),
+            };
+
+            if (!planData.name || isNaN(planData.price) || isNaN(planData.daily) || isNaN(planData.duration) || isNaN(planData.refBonus)) {
+                return showAlert("Please fill all plan fields with valid data.");
+            }
+            
+            showLoading();
+            try {
+                if (planId) {
+                    await setDoc(doc(db, 'plans', planId), planData);
+                } else {
+                    await addDoc(collection(db, 'plans'), planData);
+                }
+                showAlert("Plan saved successfully!");
+                closeFormModal();
+            } catch(e) {
+                showAlert("Error saving plan: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+        window.deletePlan = async function(planId) {
+            if (!confirm("Are you sure you want to delete this plan? This action cannot be undone.")) return;
+            showLoading();
+            try {
+                await deleteDoc(doc(db, 'plans', planId));
+                showAlert("Plan deleted successfully.");
+            } catch(e) {
+                showAlert("Error deleting plan: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function renderPaymentMethods(docs) {
+            const container = document.getElementById('admin-methods');
+            if(!container) return;
+            container.innerHTML = `
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-2">
+                    <h2 class="text-2xl font-bold">Payment Methods</h2>
+                    <button onclick="openPaymentMethodModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Add New Method</button>
+                </div>
+                <p class="text-gray-500 mb-6">Manage the deposit methods available to users.</p>
+                <div id="payment-methods-list" class="space-y-3"></div>`;
+            
+            const list = document.getElementById('payment-methods-list');
+            if(docs.empty) {
+                list.innerHTML = '<p>No payment methods configured.</p>';
+                return;
+            }
+            list.innerHTML = docs.map(doc => {
+                const method = doc.data();
+                return `
+                    <div class="bg-gray-50 p-4 rounded-lg flex flex-wrap justify-between items-center gap-4">
+                        <div class="flex items-center gap-4">
+                            <img src="${method.logoUrl}" class="w-12 h-12 object-contain bg-white p-1 rounded-md">
+                            <div>
+                                <p><strong>${method.name}</strong> <span class="text-xs font-bold p-1 rounded ${method.isActive ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-800'}">${method.isActive ? 'Active' : 'Inactive'}</span></p>
+                                <p class="text-sm text-gray-600 whitespace-pre-wrap">${method.details}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 flex-shrink-0">
+                            <button onclick="openPaymentMethodModal('${doc.id}')" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded">Edit</button>
+                            <button onclick="deletePaymentMethod('${doc.id}')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.openPaymentMethodModal = async function(methodId = null) {
+            let method = { name: '', details: '', logoUrl: '', isActive: true };
+            if (methodId) {
+                const methodSnap = await getDoc(doc(db, 'paymentMethods', methodId));
+                if(methodSnap.exists()) method = methodSnap.data();
+            }
+            
+            formModal.classList.remove('hidden');
+            formModal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg" onclick="event.stopPropagation()">
+                    <h3 class="text-xl font-bold mb-6">${methodId ? 'Edit' : 'Add'} Payment Method</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Method Name</label>
+                            <input id="methodName" type="text" placeholder="e.g., JazzCash" value="${method.name}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Account Details</label>
+                            <textarea id="methodDetails" placeholder="Name: John Doe&#10;Number: 03001234567" class="mt-1 w-full p-2 border rounded-md h-24">${method.details}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Logo Image URL</label>
+                            <input id="methodLogoUrl" type="text" placeholder="https://..." value="${method.logoUrl}" class="mt-1 w-full p-2 border rounded-md">
+                        </div>
+                         <div class="flex items-center">
+                            <input id="methodIsActive" type="checkbox" ${method.isActive ? 'checked' : ''} class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                            <label for="methodIsActive" class="ml-2 block text-sm text-gray-900">Active (Visible to users)</label>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button onclick="closeFormModal()" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-lg">Cancel</button>
+                        <button onclick="savePaymentMethod('${methodId || ''}')" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Save Method</button>
+                    </div>
+                </div>
+            `;
+            formModal.addEventListener('click', closeFormModal);
+        }
+
+         window.savePaymentMethod = async function(methodId) {
+            const methodData = {
+                name: document.getElementById('methodName').value.trim(),
+                details: document.getElementById('methodDetails').value.trim(),
+                logoUrl: document.getElementById('methodLogoUrl').value.trim(),
+                isActive: document.getElementById('methodIsActive').checked,
+            };
+
+            if (!methodData.name || !methodData.details || !methodData.logoUrl) {
+                return showAlert("Please fill all fields.");
+            }
+            
+            showLoading();
+            try {
+                const docRef = methodId ? doc(db, 'paymentMethods', methodId) : doc(collection(db, 'paymentMethods'));
+                await setDoc(docRef, methodData);
+                showAlert("Payment method saved successfully!");
+                closeFormModal();
+            } catch(e) {
+                showAlert("Error saving method: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        window.deletePaymentMethod = async function(methodId) {
+            if (!confirm("Are you sure you want to delete this payment method?")) return;
+            showLoading();
+            try {
+                await deleteDoc(doc(db, 'paymentMethods', methodId));
+                showAlert("Payment method deleted.");
+            } catch(e) {
+                showAlert("Error deleting method: " + e.message);
+            } finally {
+                hideLoading();
+            }
+        }
+        
+    </script>
+</body>
+</html>
+
