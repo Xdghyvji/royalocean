@@ -712,8 +712,8 @@
                 <p class="text-gray-500 mb-8">Choose a plan that fits your financial goals.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="plansGrid"></div>`;
             const grid = document.getElementById('plansGrid');
-            if (docs.empty) {
-                grid.innerHTML = `<p>No investment plans available at the moment.</p>`;
+            if (!docs || docs.length === 0) {
+                grid.innerHTML = `<p class="col-span-3 text-center p-8 bg-gray-50 rounded-lg">No investment plans available at the moment.</p>`;
                 return;
             }
             grid.innerHTML = docs.map(doc => {
@@ -1965,6 +1965,66 @@
             } finally {
                 hideLoading();
             }
+        }
+        
+         // --- LANDING PAGE SPECIFIC ---
+        function initializeLandingPage() {
+            if (window.particlesJS) {
+                particlesJS('particles-js', {
+                    "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#ffffff" }, "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 }, "image": { "src": "img/github.svg", "width": 100, "height": 100 } }, "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 400, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true
+                });
+            }
+            renderLandingPagePlans();
+            setupFadeInObservers();
+        }
+
+        async function renderLandingPagePlans() {
+            try {
+                const q = query(collection(db, "plans"), orderBy("price", "asc"), limit(3));
+                const querySnapshot = await getDocs(q);
+                const grid = document.getElementById('landing-plans-grid');
+                if(!grid) return;
+                
+                if (querySnapshot.empty) {
+                    grid.innerHTML = `<p class="text-center col-span-3">No investment plans available at the moment.</p>`;
+                    return;
+                }
+
+                grid.innerHTML = querySnapshot.docs.map(doc => {
+                    const plan = doc.data();
+                    return `
+                        <div class="border rounded-xl p-6 flex flex-col bg-white hover:shadow-xl transition-shadow fade-in-section">
+                            <h3 class="text-xl font-bold text-blue-700">${plan.name}</h3>
+                            <p class="text-3xl font-extrabold my-4">PKR ${plan.price}</p>
+                            <ul class="space-y-2 text-gray-600 mb-6 flex-grow">
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Daily Earning: PKR ${plan.daily}</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Duration: ${plan.duration} Days</li>
+                            </ul>
+                            <button onclick="showAuthView('signup')" class="w-full mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg">Get Started</button>
+                        </div>`;
+                }).join('');
+                setupFadeInObservers();
+            } catch(e) {
+                console.error("Could not fetch plans for landing page:", e);
+                const grid = document.getElementById('landing-plans-grid');
+                if(grid) grid.innerHTML = `<p class="text-center col-span-3 text-red-500">Could not load plans. Please try again later.</p>`;
+            }
+        }
+
+
+        function setupFadeInObservers() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         }
         
     </script>
